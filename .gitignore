@@ -144,3 +144,5 @@ static
 
 # custom config
 uploads/
+
+node_modules/
