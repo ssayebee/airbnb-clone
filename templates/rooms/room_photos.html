@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block page_name %}
+  {{room.name}}'s photos
+{% endblock page_name %}
+
+{% block search-bar %}
+{% endblock search-bar %}
+
+{% block content %}
+
+
+  <div class="container flex flex-col mx-auto mb-10">
+
+    <div class="my-5 w-fll">
+      <a href="{% url 'rooms:add-photo' pk=room.pk %}" class="block w-1/6 btn-link">Upload Photo</a>
+			<span class="block mt-5 text-lg font-medium">total: {{room.photos.all.count}}</span>
+    </div>
+
+    {% for photo in room.photos.all %}
+      <div class="flex justify-between p-6 mb-5 border border-gray-400">
+        <div class="flex items-start">
+          <img src="{{photo.file.url}}" alt="room photo" class="w-32 h-32">
+          <span class="ml-5 text-xl">{{photo.caption}}</span>
+        </div>
+        <div class="flex flex-col w-1/5">
+          <a class="mb-5 bg-teal-500 btn-link" href="{% url 'rooms:edit-photo' room.pk photo.pk %}">Edit</a>
+          <a class="mb-5 bg-red-600 btn-link" href="{% url 'rooms:delete-photo' room.pk photo.pk %}">Delete</a>
+        </div>
+      </div>
+    {% endfor %}
+
+    <div class="flex justify-center mt-5">
+      <a href="{% url 'rooms:edit' room.pk %}" class="text-xl font-medium text-teal-500">Back to edit room</a>
+    </div>
+
+  </div>
+{% endblock content %}
