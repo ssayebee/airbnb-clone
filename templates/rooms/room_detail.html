@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load sexy_capitals %}
 
 {% block page_name %}
   {{room.name}}
@@ -88,6 +89,34 @@
     <div class="w-1/3">
       {% if room.host == user %}
         <a href="{% url 'rooms:edit' room.pk %}" class="block btn-link">Edit Room</a>
+      {% else %}
+        {{'something'|sexy_capitals}}
+        {% if not request.session.is_hosting %}
+          {% for calendar in room.get_calendars %}
+            <div class="mb-20">
+              <span class="text-center, font-semibold text-lg block mb-8">{{calendar.get_month}}/{{calendar.year}}</span>
+              <div class="mb-4 font-medium cal-grid">
+                {% for day in calendar.day_names %}
+                  <span>{{day}}</span>
+                {% endfor %}
+              </div>
+              <div class="cal-grid">
+                {% for day in calendar.get_days %}
+                  {% if day.number != 0 %}
+                    {% if day.past %}
+                      <span class="w-full p-1 text-center text-gray-300 bg-gray-200 rounded">{{day}}</span>
+                    {% else %}
+                      <span class="w-full p-1 text-center text-gray-700 bg-gray-200 rounded cursor-pointer hover:font-medium hover:bg-teal-400 hover:text-white">{{day}}</span>
+                    {% endif %}
+                  {% else %}
+                    
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+        {% endif %}
       {% endif %}
     </div>
   </div>
