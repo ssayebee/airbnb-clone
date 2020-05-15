@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load sexy_capitals %}
+{% load is_booked %}
 
 {% block page_name %}
   {{room.name}}
@@ -90,7 +90,6 @@
       {% if room.host == user %}
         <a href="{% url 'rooms:edit' room.pk %}" class="block btn-link">Edit Room</a>
       {% else %}
-        {{'something'|sexy_capitals}}
         {% if not request.session.is_hosting %}
           {% for calendar in room.get_calendars %}
             <div class="mb-20">
@@ -102,12 +101,15 @@
               </div>
               <div class="cal-grid">
                 {% for day in calendar.get_days %}
+                  {% is_booked room day as is_booked_bool %}
                   {% if day.number != 0 %}
-                    {% if day.past %}
-                      <span class="w-full p-1 text-center text-gray-300 bg-gray-200 rounded">{{day}}</span>
-                    {% else %}
-                      <span class="w-full p-1 text-center text-gray-700 bg-gray-200 rounded cursor-pointer hover:font-medium hover:bg-teal-400 hover:text-white">{{day}}</span>
-                    {% endif %}
+										{% if day.past %}
+											<span class="text-gray-400 bg-gray-200 cal-number">{{day}}</span>
+										{% elif is_booked_bool %}
+											<span class="text-gray-400 line-through bg-gray-200 cal-number">{{day}}</span>
+										{% else %}
+                      <a href="{% url 'reservations:create' room.pk day.year day.month day.number %}" class="text-gray-700 bg-gray-200 cal-number hover:bg-teal-400 hover:text-white hover:font-medium">{{day}}</a>
+										{% endif %}
                   {% else %}
                     
                   {% endif %}
