@@ -1,3 +1,22 @@
+{% load i18n %}
 <footer class="container py-10 mx-auto font-medium text-center text-gray-500 border-t">
-  &copy; 2020 Nbnb, Inc. All rights reserved. Please don't copy us.
+  <div class="flex flex-col">
+    <span>{% trans "Please don't copy us." %}</span>
+    <span>&copy; 2020 Nbnb, Inc. {% trans "All rights reserved" %}.</span>
+  </div>
+  <div class="flex mt-10">
+    {% get_current_language as LANGUAGE_CODE %}
+    <select id="js-lang" class="w-1/5 h-8 p-0">
+      <option value="en" 
+        {% if LANGUAGE_CODE == 'en' %}
+          selected
+        {% endif %}
+      >English</option>
+      <option value="ko" 
+        {% if LANGUAGE_CODE == 'ko' %}
+          selected
+        {% endif %}
+      >Korean</option>
+    </select>
+  </div>
 </footer>
