@@ -1,45 +1,45 @@
 {% load static i18n %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
-  <title>{% block page_name %}{% endblock page_name %}| Nbnb</title>
-</head>
-<body class="mt-24 font-light text-gray-800">
-  {% include "partials/messages.html" %}
-  <header class="container fixed inset-0 flex items-center justify-between h-20 max-w-full px-6 bg-white border-b border-gray-400">
-    <div class="flex items-center w-1/3">
-      <a href="{% url "core:home" %}" class="mr-6">
-        <img class="w-8" src="{% static 'img/logo.png' %}" />
-      </a>
-      {% block search-bar %}
+    <title>{% block page_name %}{% endblock page_name %}| Nbnb</title>
+  </head>
+  <body class="mt-24 font-light text-gray-800">
+    {% include "partials/messages.html" %}
+    <header class="container fixed inset-0 flex items-center justify-between h-20 max-w-full px-6 bg-white border-b border-gray-400">
+      <div class="flex items-center w-1/3">
+        <a href="{% url "core:home" %}" class="mr-6">
+          <img class="w-8" src="{% static 'img/logo.png' %}" />
+        </a>
+        {% block search-bar %}
         <form method="get" action="{% url "rooms:search" %}" class="w-9/12">
           <input 
             class="w-full px-5 py-3 font-medium placeholder-gray-600 border rounded-sm shadow-md hover:shadow-lg focus:outline-none" 
             name="city"
             placeholder="{% trans "Search by City" %}" />
         </form>
-      {% endblock search-bar %}
-    </div>
-    {% include "partials/nav.html" %}
-  </header>
+        {% endblock search-bar %}
+      </div>
+      {% include "partials/nav.html" %}
+    </header>
 
-  {% block content %}{% endblock %}
+    {% block content %}{% endblock %}
 
-  {% include "partials/footer.html" %}
-  <script>
-    const langSelect = document.getElementById("js-lang");
-    const handleLangChange = () => {
-      const selected = langSelect.value;
-      fetch(`{% url 'users:switch-language' %}?lang=${selected}`).then(() => {
-        window.location.reload();
-      })
-    }
-    langSelect.addEventListener("change", handleLangChange);
-  </script>
-</body>
+    {% include "partials/footer.html" %}
+    <script>
+      const langSelect = document.getElementById("js-lang");
+      const handleLangChange = () => {
+        const selected = langSelect.value;
+        fetch(`{% url 'users:switch-language' %}?lang=${selected}`).then(() => {
+          window.location.reload();
+        })
+      }
+      langSelect.addEventListener("change", handleLangChange);
+    </script>
+  </body>
 </html>

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+  Conversation
+{% endblock page_title %}
+
+{% block search-bar %}
+{% endblock search-bar %}
+
+{% block content %}
+   
+  <div class="container flex justify-between mx-auto my-10 mt-32 min-h-50vh">
+
+    <div class="w-1/4 p-10 border">
+      <span class="block w-full text-lg font-medium text-center">Conversation between:</span>
+      <div class="flex items-center justify-between mt-10">
+        {% for user in conversation.participants.all %}
+          <div class="flex flex-col items-center">
+            {% include "mixins/user_avatar.html" with user=user %}
+            <span class="mt-2 text-gray-500">{{user.first_name}}</span>
+          </div>
+          {% if forloop.first %}
+           <span class="text-2xl font-medium">&</span>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    <div class="flex-grow">
+    <div class="flex flex-col p-10 ml-10 border">
+      {% if conversation.messages.count == 0 %}
+        no messages
+      {% else %}
+        {% for message in conversation.messages.all %}
+          <div class="mb-10 {% if message.user.pk == user.pk %}
+            self-end
+            text-right
+          {% endif %}">
+            <span class="text-sm font-medium text-gray-600">{{message.user.first_name}}</span>
+            <div class="mt-px p-5 w-56 rounded
+              {% if message.user.pk != user.pk %}
+                bg-teal-500
+                text-white
+              {% else %}
+                bg-gray-300
+              {% endif %}
+            ">
+              {{message.message}}
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+    <form class="w-1/2 mx-auto mt-10" method="POST" action="">
+      {% csrf_token %}
+      <input class="mb-5 box-border" name="message" placeholder="Write a Comment">
+      <button class="btn btn-link">Send Comment</button>
+    </form>
+    </div>
+  </div>
+{% endblock content %}
