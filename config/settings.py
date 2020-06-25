@@ -182,11 +182,10 @@ if not DEBUG:
     AWS_STORAGE_BUCKET_NAME = "airbnb-clone-ssayebee"
     AWS_AUTO_CREATE_BUCKET = True
     AWS_BUCKET_ACL = "public_read"
-    AWS_S3_RESION_NAME = "ap-northeast-2"
-
+    AWS_S3_REGION_NAME = "ap-northeast-2"
+    AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
     AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
-
-    STATIC_URL = ""
+    STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
 
     # Sentry
 

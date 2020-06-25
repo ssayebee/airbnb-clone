@@ -1,3 +1,4 @@
+import os
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -16,7 +17,7 @@ urlpatterns = [
     path("reservations/", include("reservations.urls", namespace="reservations")),
     path("lists/", include("lists.urls", namespace="lists")),
     path("conversations/", include("conversations.urls", namespace="conversations")),
-    path("admin/", admin.site.urls),
+    path(os.environ.get("ADMIN_URL", "admin/"), admin.site.urls),
     path("sentry-debug/", trigger_error),
 ]
 
